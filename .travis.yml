@@ -15,19 +15,19 @@ env:
 before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
-script: |
-  php src/index.php coucou
-  php src/index.php hello
+script:
+  - php src/index.php coucou
+  - php src/index.php hello
 
 jobs:
   include:
     - stage: build docker image
-      if: tag IS present AND branch = master AND type = push
+      if: branch = master AND type = push
       php: 7.3
       env: COMPOSER_FLAGS=""
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - export REPO=$DOCKER_USERNAME/sandbox
-        - docker build -f docker/Dockerfile -t $REPO:$TRAVIS_TAG .
-        - docker tag $REPO:$TRAVIS_TAG $REPO:latest
+        - docker build -f docker/Dockerfile -t $REPO:latest .
+        #- docker tag $REPO:$TRAVIS_TAG $REPO:latest
         - docker push $REPO
