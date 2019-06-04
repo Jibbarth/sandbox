@@ -9,17 +9,18 @@ php:
   - 7.3
 
 env:
-  matrix:
-    - COMPOSER_FLAGS="--prefer-lowest"
-    - COMPOSER_FLAGS=""
+  - COMPOSER_FLAGS="--prefer-lowest"
+  - COMPOSER_FLAGS=""
+
+before_script:
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+
+script: |
+  php src/index.php coucou
+  php src/index.php hello
 
 jobs:
   include:
-    - stage: test
-      before_script:
-        - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-      script:
-        - php src/index.php coucou
     - stage: build docker image
       if: tag IS present AND branch = master AND type = push
       php: 7.3
