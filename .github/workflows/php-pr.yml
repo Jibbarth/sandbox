@@ -8,10 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-version: &phpVersion
-                    - '7.2'
-                    - '7.3'
-                    - '7.4'
+                php: ['7.2', '7.3', '7.4']
 
         name: PHP ${{ matrix.php }} tests
         steps:
@@ -27,7 +24,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php: *phpVersion
+                php: ['7.2', '7.3', '7.4']
         steps:
             -   uses: actions/checkout@v2
             -
