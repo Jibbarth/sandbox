@@ -17,8 +17,8 @@ jobs:
                 uses: shivammathur/setup-php@v1
                 with:
                     php-version: ${{ matrix.php }}
-                    coverage: none # disable xdebug, pcov
             -   run: composer install --prefer-dist --no-progress --no-suggest
+            - run: php src/index.php Coucou
 
     test_lowest_dependencies:
         runs-on: ubuntu-latest
