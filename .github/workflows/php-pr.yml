@@ -1,0 +1,51 @@
+name: CI
+
+on:
+    - pull_request
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php: ['7.2', '7.3', '7.4']
+
+        name: PHP ${{ matrix.php }} tests
+        steps:
+            -   uses: actions/checkout@v2
+            -
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: ${{ matrix.php }}
+            -   run: composer install --prefer-dist --no-progress --no-suggest
+            - run: vendor/bin/phpinsights -n --ansi
+
+    phpinsights:
+        runs-on: ubuntu-latest
+        name: PHP Insights checks
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v1
+              with:
+                  php-version: 7.3
+            - run: composer install --prefer-dist --no-progress --no-suggest
+            - run: vendor/bin/phpinsights -n --ansi --format=github-action
+
+#    test_lowest_dependencies:
+#        runs-on: ubuntu-latest
+#        strategy:
+#            matrix:
+#                php: ['7.2', '7.3', '7.4']
+#
+#        name: PHP ${{ matrix.php }} tests with lowest dependencies
+#        steps:
+#            -   uses: actions/checkout@v2
+#            -
+#                uses: shivammathur/setup-php@v1
+#                with:
+#                    php-version: ${{ matrix.php}}
+#                    coverage: none
+#
+#            -   run: composer update --no-progress --prefer-lowest
+#            - run: vendor/bin/phpinsights -n --ansi --disable-security-check
+
