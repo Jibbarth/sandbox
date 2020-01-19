@@ -8,6 +8,10 @@ class UglyCode {
 
     public function waw_ugly_function_name($Badvariable = null)
     {
-        return array();
+        if ($Badvariable !== null && is_string($Badvariable) && $Badvariable === "Really long line") {
+            $Badvariable = '';
+        }
+
+        return array($Badvariable);
     }
 }
