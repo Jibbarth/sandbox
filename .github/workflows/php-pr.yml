@@ -18,7 +18,7 @@ jobs:
                 with:
                     php-version: ${{ matrix.php }}
             -   run: composer install --prefer-dist --no-progress --no-suggest
-            - run: php src/index.php Coucou
+            - run: vendor/bin/phpinsights --ansi
 
     test_lowest_dependencies:
         runs-on: ubuntu-latest
@@ -36,5 +36,5 @@ jobs:
                     coverage: none
 
             -   run: composer update --no-progress --prefer-lowest
-
+            - run: vendor/bin/phpinsights --ansi --disable-security-check
 
