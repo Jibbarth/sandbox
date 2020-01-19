@@ -4,6 +4,12 @@
         "symfony/var-dumper": "^4.3"
     },
     "require-dev": {
-        "nunomaduro/phpinsights": "^1.11"
-    }
+        "nunomaduro/phpinsights": "dev-feature/github-action-format"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jibbarth/phpinsights"
+        }
+    ]
 }

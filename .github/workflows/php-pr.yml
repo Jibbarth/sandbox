@@ -18,23 +18,23 @@ jobs:
                 with:
                     php-version: ${{ matrix.php }}
             -   run: composer install --prefer-dist --no-progress --no-suggest
-            - run: vendor/bin/phpinsights --ansi
+            - run: vendor/bin/phpinsights -n --ansi --format=github-action
 
-    test_lowest_dependencies:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                php: ['7.2', '7.3', '7.4']
-
-        name: PHP ${{ matrix.php }} tests with lowest dependencies
-        steps:
-            -   uses: actions/checkout@v2
-            -
-                uses: shivammathur/setup-php@v1
-                with:
-                    php-version: ${{ matrix.php}}
-                    coverage: none
-
-            -   run: composer update --no-progress --prefer-lowest
-            - run: vendor/bin/phpinsights --ansi --disable-security-check
+#    test_lowest_dependencies:
+#        runs-on: ubuntu-latest
+#        strategy:
+#            matrix:
+#                php: ['7.2', '7.3', '7.4']
+#
+#        name: PHP ${{ matrix.php }} tests with lowest dependencies
+#        steps:
+#            -   uses: actions/checkout@v2
+#            -
+#                uses: shivammathur/setup-php@v1
+#                with:
+#                    php-version: ${{ matrix.php}}
+#                    coverage: none
+#
+#            -   run: composer update --no-progress --prefer-lowest
+#            - run: vendor/bin/phpinsights -n --ansi --disable-security-check
 
