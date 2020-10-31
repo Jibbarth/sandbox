@@ -45,4 +45,4 @@ jobs:
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] |  select( .status == "added" or .status == "modified") | .filename')
           php vendor/bin/phpinsights analyse $FILES --ansi -v --no-interaction --format=github-action --min-quality=0 --min-complexity=0 --min-architecture=0 --min-style=0
       - name: PHPInsight
-        run: composer run insights
+        run: php vendor/bin/phpinsights --ansi -v -n
