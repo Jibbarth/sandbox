@@ -12,6 +12,7 @@ jobs:
     name: Docker image build
     steps:
       - name: Dump GitHub context
+        if: 'github.event_name == push'
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
