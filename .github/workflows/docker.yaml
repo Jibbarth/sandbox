@@ -18,5 +18,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           dockerfile: docker/Dockerfile
           repository: ${{ github.repository }}
-          tag_with_ref: true
+          tag_with_ref: ${{ github.event_name == 'push' }}
           push: ${{ github.event_name == 'push' }}
