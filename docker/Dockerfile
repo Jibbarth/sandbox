@@ -12,7 +12,6 @@ RUN composer install -d /sandbox \
     --no-ansi \
     --no-interaction \
     --no-scripts \
-    --no-suggest \
     --no-progress \
     --prefer-dist
 
