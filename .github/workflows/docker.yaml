@@ -13,7 +13,8 @@ jobs:
     name: Docker image build
     env:
       publish: ${{ github.event_name == 'push' }}
-
+      image_name: 'jibbarth/sandbox'
+      ghcr_url: 'ghcr.io'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,12 +24,20 @@ jobs:
       - name: Login to docker hub
         run: echo "${{ secrets.DOCKER_PASSWORD}}" | docker login -u "${{ secrets.DOCKER_USERNAME}}" --password-stdin
         if: ${{ env.publish == 'true' }}
+      - name: Login to Github Container Registry
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ${{ env.ghcr_url }} -u "${{ github.repository_owner }}" --password-stdin
+        if: ${{ env.publish == 'true' }}
       - name: Build image
-        run: docker build -f docker/Dockerfile -t jibbarth/sandbox:latest .
+        run: docker build -f docker/Dockerfile -t ${{ env.image_name }}:latest .
       - name: Tag image
         run: |
-          docker tag jibbarth/sandbox:latest jibbarth/sandbox:${{ env.RELEASE_VERSION }}
+          docker tag ${{ env.image_name}}:latest ${{ env.image_name}}:${{ env.RELEASE_VERSION }}
+          docker tag ${{ env.image_name}}:latest ${{ env.ghcr_url }}/${{ env.image_name}}:latest
+          docker tag ${{ env.image_name}}:latest ${{ env.ghcr_url }}/${{ env.image_name}}:${{ env.RELEASE_VERSION }}
         if: ${{ env.publish == 'true' }}
       - name: Push image to hub.docker.com registry
-        run: docker push jibbarth/sandbox
+        run: docker push ${{ env.image_name}}
+        if: ${{ env.publish == 'true' }}
+      - name: Push image to ghcr.io registry
+        run: docker push ${{ env.ghcr_url }}/${{ env.image_name}}
         if: ${{ env.publish == 'true' }}
